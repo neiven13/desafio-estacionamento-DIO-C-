@@ -1,0 +1,29 @@
+# Sistema de Build
+bin/
+obj/
+
+# Pacotes de dependências
+packages/
+
+# Configurações do VS Code
+.vscode/
+
+# Arquivos do Visual Studio
+.vs/
+*.user
+*.suo
+
+# Configurações locais e de build
+*.local
+*.log
+*.tlog
+*.ide
+
+# Diretórios de backup
+_backup/
+_ReSharper.*
+.idea/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
