@@ -9,30 +9,35 @@ namespace Estacionamento.Common.Data
 {
     public class List
     {
-        public Node Topo { get; set; }
+        public Node Head { get; private set; }
+        public Node Last { get; private set; }
 
         public List()
         {
-            this.Topo = null;
+            Head = null;
+            Last = null;
         }
 
-        public bool Add(Veiculo veiculo)
+        public void AddLast(Veiculo veiculo)
         {
-            Node novoNode = new Node(veiculo);
-            if (Topo == null)
+            if (IsEmpty())
             {
-                Topo = novoNode;
+                Node newNode = new Node(veiculo);
+                Head = Last = newNode;
+                Head.SetNext(Last);
+                Last.SetPrevious(Head);
             }
             else
             {
-                Node atual = Topo;
-                while (atual.Proximo != null)
-                {
-                    atual = atual.Proximo;
-                }
-                atual.Proximo = novoNode;
+                Node newNode = new Node(veiculo, Last);
+                Last.SetNext(newNode);
+                Last = newNode;
             }
-            return true;
+        }
+
+        public bool IsEmpty()
+        {
+            return Head == null;
         }
 
         public bool Remove(Veiculo veiculo)
