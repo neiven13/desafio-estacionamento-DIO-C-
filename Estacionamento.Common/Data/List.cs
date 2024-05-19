@@ -26,22 +26,22 @@ namespace Estacionamento.Common.Data
             else
             {
                 Node atual = Topo;
-                while (atual.Proximo!=null)
+                while (atual.Proximo != null)
                 {
-                    atual=atual.Proximo;
+                    atual = atual.Proximo;
                 }
-                atual.Proximo=novoNode;
+                atual.Proximo = novoNode;
             }
             return true;
         }
 
-        public bool Remove(string placa)
+        public bool Remove(Veiculo veiculo)
         {
-            if(Topo == null)
+            if (Topo == null)
             {
                 return false;
             }
-            if (Topo.Veiculo.Placa == placa)
+            if (Topo.Veiculo == veiculo)
             {
                 Topo = Topo.Proximo;
                 return true;
@@ -50,22 +50,23 @@ namespace Estacionamento.Common.Data
             Node atual = Topo;
             Node anterior = null;
 
-            while (Topo.Proximo != null && atual.Veiculo.Placa != placa)
-            {   
+            while (Topo.Proximo != null && atual.Veiculo != veiculo)
+            {
                 anterior = atual;
                 atual = atual.Proximo;
             }
-            
+
             anterior.Proximo = atual.Proximo;
             return true;
         }
 
-        public IEnumerable<Veiculo> GetVeiculos(){
+        public IEnumerable<Veiculo> GetVeiculos()
+        {
             Node atual = Topo;
-            while (atual!=null)
+            while (atual != null)
             {
                 yield return atual.Veiculo;
-                atual=atual.Proximo;
+                atual = atual.Proximo;
             }
         }
     }
