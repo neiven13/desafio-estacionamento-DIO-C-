@@ -24,8 +24,6 @@ namespace Estacionamento.Common.Data
             {
                 Node newNode = new Node(veiculo);
                 Head = Last = newNode;
-                Head.SetNext(Last);
-                Last.SetPrevious(Head);
             }
             else
             {
@@ -42,36 +40,49 @@ namespace Estacionamento.Common.Data
 
         public bool Remove(Veiculo veiculo)
         {
-            if (Topo == null)
+            if (IsEmpty())
             {
                 return false;
             }
-            if (Topo.Veiculo == veiculo)
+
+            Node current = Head;
+            while (current != null && !current.Veiculo.Equals(veiculo))
             {
-                Topo = Topo.Proximo;
-                return true;
+                current = current.NextNode;
             }
 
-            Node atual = Topo;
-            Node anterior = null;
-
-            while (Topo.Proximo != null && atual.Veiculo != veiculo)
+            if (current == null)
             {
-                anterior = atual;
-                atual = atual.Proximo;
+                return false;
             }
 
-            anterior.Proximo = atual.Proximo;
+            Node previous = current.PreviousNode;
+            Node next = current.NextNode;
+            if(previous != null)
+            {
+                previous.SetNext(next);
+            }
+            else{
+                Head = next;
+            }   
+            
+            if (next != null)
+            {
+                next.SetPrevious(previous);
+            }
+            else{
+                Last = previous;
+            }
             return true;
         }
 
         public IEnumerable<Veiculo> GetVeiculos()
         {
-            Node atual = Topo;
-            while (atual != null)
+            Node current = Head;
+            while (current != null)
             {
-                yield return atual.Veiculo;
-                atual = atual.Proximo;
+                yield return current.Veiculo;
+                current = current.NextNode;
             }
         }
     }
