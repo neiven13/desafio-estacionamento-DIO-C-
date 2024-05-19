@@ -12,17 +12,17 @@ namespace Estacionamento.Common.Data
         public Node PreviousNode { get; private set; }
         public Veiculo Veiculo { get; private set; }
 
-        public Node (Veiculo veiculo)
+        public Node(Veiculo veiculo)
         {
             Veiculo = veiculo;
             NextNode = null;
             PreviousNode = null;
         }
 
-        public Node(Veiculo veiculo, Node next, Node previous)
+        public Node(Veiculo veiculo, Node previous)
         {
             Veiculo = veiculo;
-            NextNode = next;
+            NextNode = null;
             PreviousNode = previous;
         }
 
@@ -30,7 +30,7 @@ namespace Estacionamento.Common.Data
         {
             NextNode = next;
         }
-        public void SetPrevious (Node previous)
+        public void SetPrevious(Node previous)
         {
             PreviousNode = previous;
         }
