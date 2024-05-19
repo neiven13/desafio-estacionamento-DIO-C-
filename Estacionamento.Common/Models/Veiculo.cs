@@ -7,15 +7,15 @@ namespace Estacionamento.Common.Models
 {
     public class Veiculo
     {
-       public string Placa { get; set; }
-       public string NomePortador { get; set; }
-       public DateTime HorarioEntrada { get; set; }
+       public string LicensePlate { get; private set; }
+       public string OwnerName { get; private set; }
+       public DateTime EntryTime { get; private set; }
 
-       public Veiculo (string placa, string nomePortador)
+       public Veiculo (string plate, string name)
        {
-            Placa = placa;
-            NomePortador = nomePortador;
-            HorarioEntrada = DateTime.Now;
+            LicensePlate = plate;
+            OwnerName = name;
+            EntryTime = DateTime.Now;
        }
     }
 }
