@@ -1,8 +1,12 @@
 # Desafio - Sistema para um estacionamento usando C#
-🚧EM DESENVOLVIMENTO🚧
+Sistema de gerenciamento de veículos para um estacionamento, sendo possível adicionar e remover veículos (e exibir o valor cobrado), também verificar os veículos estacionados.
 ## Objetivo
 Implementar uma solução para o desafio proposto no módulo de Fundamentos de .NET do Bootcamp .NET Developer Coding The Future Avanade.
 Segue o link para o repositório original do desafio: [DIO - Desafio-Sistema-Estacionamento](https://github.com/digitalinnovationone/trilha-net-fundamentos-desafio/tree/main)
+
+A proposta era completar o código fornecido no repositório acima, porém decidi me desafiar e fazer uma implementação do zero. Na prática as funcionalidades exigidas estão presentes nessa solução.
+
+Nesta solução apliquei outros conceitos que foram apresentados no módulo, como o uso de Solutions e do tipo DateTime para verificar o tempo estacionado, aproveitei a oportunidade para praticar POO e também fazer minha própria implementação de listas encadeadas
 
 ## Como usar
 
