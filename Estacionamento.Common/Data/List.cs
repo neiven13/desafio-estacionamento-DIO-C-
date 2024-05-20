@@ -9,64 +9,101 @@ namespace Estacionamento.Common.Data
 {
     public class List
     {
-        public Node Topo { get; set; }
+        public Node Head { get; private set; }
+        public Node Last { get; private set; }
 
         public List()
         {
-            this.Topo = null;
+            Head = null;
+            Last = null;
         }
 
-        public bool Add(Veiculo veiculo)
+        public void AddLast(Veiculo veiculo)
         {
-            Node novoNode = new Node(veiculo);
-            if (Topo == null)
+            if (IsEmpty())
             {
-                Topo = novoNode;
+                Node newNode = new Node(veiculo);
+                Head = Last = newNode;
             }
             else
             {
-                Node atual = Topo;
-                while (atual.Proximo != null)
-                {
-                    atual = atual.Proximo;
-                }
-                atual.Proximo = novoNode;
+                Node newNode = new Node(veiculo, Last);
+                Last.SetNext(newNode);
+                Last = newNode;
             }
-            return true;
+        }
+
+        public bool IsEmpty()
+        {
+            return Head == null;
         }
 
         public bool Remove(Veiculo veiculo)
         {
-            if (Topo == null)
+            if (IsEmpty())
             {
                 return false;
             }
-            if (Topo.Veiculo == veiculo)
+
+            Node current = Head;
+            while (current != null && !current.Veiculo.Equals(veiculo))
             {
-                Topo = Topo.Proximo;
-                return true;
+                current = current.NextNode;
             }
 
-            Node atual = Topo;
-            Node anterior = null;
-
-            while (Topo.Proximo != null && atual.Veiculo != veiculo)
+            if (current == null)
             {
-                anterior = atual;
-                atual = atual.Proximo;
+                return false;
             }
 
-            anterior.Proximo = atual.Proximo;
+            Node previous = current.PreviousNode;
+            Node next = current.NextNode;
+            if (previous != null)
+            {
+                previous.SetNext(next);
+            }
+            else
+            {
+                Head = next;
+            }
+
+            if (next != null)
+            {
+                next.SetPrevious(previous);
+            }
+            else
+            {
+                Last = previous;
+            }
             return true;
+        }
+
+
+        public Veiculo SearchVehicle(string plate, string name)
+        {
+            if (!IsEmpty())
+            {
+                Node current = Head;
+                while (current != null)
+                {
+                    if (current.Veiculo.LicensePlate.Equals(plate) && current.Veiculo.OwnerName.Equals(name))
+                    {
+                        return current.Veiculo;
+                    }
+                    current = current.NextNode;
+                }
+            }
+
+            return null;
         }
 
         public IEnumerable<Veiculo> GetVeiculos()
         {
-            Node atual = Topo;
-            while (atual != null)
+            Node current = Head;
+            while (current != null)
             {
-                yield return atual.Veiculo;
-                atual = atual.Proximo;
+                yield return current.Veiculo;
+                current = current.NextNode;
             }
         }
     }

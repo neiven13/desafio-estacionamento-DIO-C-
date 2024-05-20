@@ -7,13 +7,13 @@ Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.Clear();
 Console.WriteLine("Seja bem-vindo ao sistema!\nPor favor, insira o preço inicial que será cobrado:");
 
-decimal precoInicial;
+decimal initialValue;
 string input;
 
 while (true)
 {
     input = Console.ReadLine();
-    if (decimal.TryParse(input, out precoInicial))
+    if (decimal.TryParse(input, out initialValue))
     {
         break;
     }
@@ -23,19 +23,19 @@ while (true)
 Console.Clear();
 Console.WriteLine("Agora insira o valor que será cobrado por hora:");
 
-decimal precoHora;
+decimal hourValue;
 
 while (true)
 {
     input = Console.ReadLine();
-    if (decimal.TryParse(input, out precoHora))
+    if (decimal.TryParse(input, out hourValue))
     {
         break;
     }
     Console.WriteLine("Entrada inválida. Insira um valor válido");
 }
 
-Estabelecimento estacionamento = new Estabelecimento(precoInicial,precoHora);
+Estabelecimento parking = new Estabelecimento(initialValue,hourValue);
 
-estacionamento.ExibirMenu();
+parking.DisplayMenu();
 Console.WriteLine("Encerrado");

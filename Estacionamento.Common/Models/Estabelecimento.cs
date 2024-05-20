@@ -9,20 +9,21 @@ namespace Estacionamento.Common.Models
 {
     public class Estabelecimento
     {
-        public List Vagas;
-        public decimal PrecoInicial { get; set; }
-        public decimal PrecoHora { get; set; }
+        public List VeihiclesParked;
+        public decimal InitialPrice { get; private set; }
+        public decimal HourlyPrice { get; private set; }
 
-        public Estabelecimento(decimal precoInicial, decimal precoHora)
+        public Estabelecimento(decimal initialValue, decimal hourValue)
         {
-            Vagas = new List();
-            PrecoInicial = precoInicial;
-            PrecoHora = precoHora;
+            VeihiclesParked = new List();
+            InitialPrice = initialValue;
+            HourlyPrice = hourValue;
         }
-        public void ExibirMenu()
+
+        public void DisplayMenu()
         {
-            bool exibirMenu = true;
-            while (exibirMenu)
+            bool closeMenu = false;
+            while (!closeMenu)
             {
                 Console.Clear();
                 Console.Write("1- Cadastrar veículo \n2- Remover veículo \n3- Listar veículos \n4- Encerrar sessão \nDigite a sua opção: ");
@@ -31,34 +32,35 @@ namespace Estacionamento.Common.Models
                 switch (input)
                 {
                     case "1":
-                        CadastrarVeiculo();
+                        RegisterVehicle();
                         Thread.Sleep(800);
                         break;
                     case "2":
-                        RemoverVeiculo();
+                        RemoveVehicle();
                         break;
                     case "3":
-                        ListarVeiculos();
+                        ShowParkedVehicles();
                         break;
                     case "4":
-                        exibirMenu = false;
+                        closeMenu = true;
                         Console.Clear();
                         Console.WriteLine("Saindo...");
                         break;
                     default:
                         Console.WriteLine("Opção inválida");
-                        Thread.Sleep(800);
+                        Thread.Sleep(200);
                         break;
                 }
             }
         }
-        public void CadastrarVeiculo()
+
+        public void RegisterVehicle()
         {
             Console.Clear();
             Console.Write("Nome do portador: ");
-            string nome = Console.ReadLine();
+            string name = Console.ReadLine();
             Console.Write("Placa do veículo: ");
-            string placa = Console.ReadLine();
+            string plate = Console.ReadLine();
 
 
             while (true)
@@ -67,15 +69,9 @@ namespace Estacionamento.Common.Models
                 string input = Console.ReadLine();
                 if (input.ToLower() == "s")
                 {
-                    Veiculo veiculo = new Veiculo(placa.ToUpper(), nome.ToUpper());
-                    if (Vagas.Add(veiculo))
-                    {
-                        Console.WriteLine("Veículo cadastrado!");
-                    }
-                    else
-                    {
-                        Console.Write("Erro ao cadastrar o veículo, tente novamente!");
-                    }
+                    Veiculo veiculo = new Veiculo(plate.ToUpper(), name.ToUpper());
+                    VeihiclesParked.AddLast(veiculo);
+                    Console.WriteLine("Veículo cadastrado!");
                     break;
                 }
                 else if (input.ToLower() == "n")
@@ -90,63 +86,62 @@ namespace Estacionamento.Common.Models
             }
 
         }
-        public void ListarVeiculos()
+
+        public void ShowParkedVehicles()
         {
-            var veiculos = Vagas.GetVeiculos();
             Console.Clear();
-            Console.WriteLine("Lista dos veículos estacionados:");
-            foreach (var veiculo in veiculos)
+            if (!VeihiclesParked.IsEmpty())
             {
-                Console.WriteLine($"Placa: {veiculo.Placa} | Nome: {veiculo.NomePortador}");
+                var vehicles = VeihiclesParked.GetVeiculos();
+                Console.WriteLine("Lista dos veículos estacionados:");
+                foreach (var vehicle in vehicles)
+                {
+                    Console.WriteLine($"Placa: {vehicle.LicensePlate} | Nome: {vehicle.OwnerName}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sem veículos estacionados.");
             }
             Console.Write("Pressione uma tecla para voltar ao menu: ");
             Console.ReadKey();
         }
-        public void RemoverVeiculo()
+
+        public void RemoveVehicle()
         {
             Console.Clear();
             Console.Write("Placa do veículo: ");
-            string placa = Console.ReadLine();
-            Console.Write("Nome do retirante: ");
-            string nome = Console.ReadLine();
-            var veiculos = Vagas.GetVeiculos();
-            bool veiculoEncontrado = false;
-            foreach (var veiculo in veiculos)
-            {
+            string plateToRemove = Console.ReadLine();
+            Console.Write("Nome do cliente: ");
+            string name = Console.ReadLine();
 
-                if (veiculo.Placa == placa.ToUpper() && veiculo.NomePortador == nome.ToUpper())
+            Veiculo toRemove = VeihiclesParked.SearchVehicle(plateToRemove.ToUpper(), name.ToUpper());
+
+            if (toRemove != null)
+            {
+                if (VeihiclesParked.Remove(toRemove))
                 {
-                    veiculoEncontrado = true;
-                    if (Vagas.Remove(veiculo))
-                    {
-                        decimal precoTotal = CalcularPrecoTotal(veiculo);
-                        Console.WriteLine($"O veículo {veiculo.Placa} foi removido. Valor a pagar: R$ {precoTotal:F2}");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Erro ao remover. Tente novamente.");
-                    }
-                    break;
-                }
-                else if (veiculo.Placa == placa.ToUpper() && veiculo.NomePortador != nome.ToUpper())
-                {
-                    veiculoEncontrado = true;
-                    Console.WriteLine("Esse veículo está cadastrado no nome de outra pessoa!");
-                    break;
+                    Console.WriteLine($"Veículo '{toRemove.LicensePlate}' removido!\nTotal a pagar: R$ {GetTotalPrice(toRemove)}");
                 }
             }
-            if (!veiculoEncontrado)
+            else
             {
                 Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
             }
             Console.Write("Pressione uma tecla para voltar ao menu: ");
             Console.ReadKey();
         }
-        public decimal CalcularPrecoTotal(Veiculo veiculo)
+
+        public decimal GetTotalPrice(Veiculo veiculo)
         {
-            TimeSpan tempoEstacionado = DateTime.Now - veiculo.HorarioEntrada;
-            Console.WriteLine($"Tempo estacionado: {tempoEstacionado.TotalHours:F0}h{(int)tempoEstacionado.TotalMinutes%60} min");
-            return ((int)tempoEstacionado.TotalHours * PrecoHora) + PrecoInicial;
+            int hoursParked = GetParkedTimeInHours(veiculo.EntryTime);
+            return (hoursParked * HourlyPrice) + InitialPrice;
+        }
+
+        public int GetParkedTimeInHours(DateTime entryTime)
+        {
+            TimeSpan parkedTime = DateTime.Now - entryTime;
+            return (int)parkedTime.TotalHours;
         }
     }
 }

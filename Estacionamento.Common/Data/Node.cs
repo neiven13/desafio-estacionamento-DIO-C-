@@ -8,13 +8,31 @@ namespace Estacionamento.Common.Data
 {
     public class Node
     {
-        public Node Proximo { get; set; }
-        public Veiculo Veiculo { get; set; }
+        public Node NextNode { get; private set; }
+        public Node PreviousNode { get; private set; }
+        public Veiculo Veiculo { get; private set; }
 
-        public Node (Veiculo veiculo)
+        public Node(Veiculo veiculo)
         {
             Veiculo = veiculo;
-            Proximo = null;
+            NextNode = null;
+            PreviousNode = null;
+        }
+
+        public Node(Veiculo veiculo, Node previous)
+        {
+            Veiculo = veiculo;
+            NextNode = null;
+            PreviousNode = previous;
+        }
+
+        public void SetNext(Node next)
+        {
+            NextNode = next;
+        }
+        public void SetPrevious(Node previous)
+        {
+            PreviousNode = previous;
         }
     }
 }
