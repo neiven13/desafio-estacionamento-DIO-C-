@@ -6,13 +6,13 @@ Segue o link para o repositório original do desafio: [DIO - Desafio-Sistema-Est
 
 A proposta era completar o código fornecido no repositório acima, porém decidi me desafiar e fazer uma implementação do zero. Na prática as funcionalidades exigidas estão presentes nessa solução.
 
-Nesta solução apliquei outros conceitos que foram apresentados no módulo, como o uso de Solutions e do tipo DateTime para verificar o tempo estacionado, aproveitei a oportunidade para praticar POO e também fazer minha própria implementação de listas encadeadas
+Nesta solução apliquei outros conceitos que foram apresentados no módulo, como o uso de Solutions e do tipo DateTime para verificar o tempo estacionado, aproveitei a oportunidade para praticar POO e também fazer minha própria implementação de listas encadeadas.
 
 ## Como usar
 
 ### Pré-requisitos
 Antes de começar você precisará ter instalado em sua máquina o SDK do .NET 6.
-Segue link para download no site oficial [.NET 6.0](https://dotnet.microsoft.com/pt-br/download/dotnet/6.0)
+Segue link para download no site oficial [.NET 6.0](https://dotnet.microsoft.com/pt-br/download/dotnet/6.0).
 
 ### Instalação 
 
