@@ -58,22 +58,43 @@ namespace Estacionamento.Common.Data
 
             Node previous = current.PreviousNode;
             Node next = current.NextNode;
-            if(previous != null)
+            if (previous != null)
             {
                 previous.SetNext(next);
             }
-            else{
+            else
+            {
                 Head = next;
-            }   
-            
+            }
+
             if (next != null)
             {
                 next.SetPrevious(previous);
             }
-            else{
+            else
+            {
                 Last = previous;
             }
             return true;
+        }
+
+
+        public Veiculo SearchVehicle(string plate, string name)
+        {
+            if (!IsEmpty())
+            {
+                Node current = Head;
+                while (current != null)
+                {
+                    if (current.Veiculo.LicensePlate.Equals(plate) && current.Veiculo.OwnerName.Equals(name))
+                    {
+                        return current.Veiculo;
+                    }
+                    current = current.NextNode;
+                }
+            }
+
+            return null;
         }
 
         public IEnumerable<Veiculo> GetVeiculos()
