@@ -16,7 +16,7 @@ Segue link para download no site oficial [.NET 6.0](https://dotnet.microsoft.com
 
 ### Instalação 
 
-Siga esses passos para poder executar a aplicação:
+Com o Prompt de Comando (CMD) aberto, siga esses passos para poder executar a aplicação:
 
 1. Clone o repositório:
 ```bash
